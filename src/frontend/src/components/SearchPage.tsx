@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronDown, Search } from "lucide-react";
+import { ArrowRight, ChevronDown, Eye, Search } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { type Employee, employees } from "../data/employees";
@@ -14,8 +14,20 @@ export function SearchPage({ onSelect }: SearchPageProps) {
   const [selected, setSelected] = useState<Employee | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [visitCount, setVisitCount] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Increment visit count on mount
+  useEffect(() => {
+    const stored = Number.parseInt(
+      localStorage.getItem("psc_visit_count") ?? "0",
+      10,
+    );
+    const updated = stored + 1;
+    localStorage.setItem("psc_visit_count", String(updated));
+    setVisitCount(updated);
+  }, []);
 
   const search = useCallback((q: string) => {
     if (q.trim().length < 2) {
@@ -239,9 +251,18 @@ export function SearchPage({ onSelect }: SearchPageProps) {
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
 
-          <p className="text-center text-xs text-muted-foreground mt-4">
-            Search from {employees.length.toLocaleString()} registered employees
-          </p>
+          <div className="flex items-center justify-between mt-4">
+            <p className="text-xs text-muted-foreground">
+              Search from {employees.length.toLocaleString()} registered
+              employees
+            </p>
+            {visitCount > 0 && (
+              <span className="flex items-center gap-1 text-xs text-muted-foreground/70">
+                <Eye className="h-3 w-3" />
+                {visitCount.toLocaleString()} visits
+              </span>
+            )}
+          </div>
         </motion.div>
 
         {/* Credit */}
