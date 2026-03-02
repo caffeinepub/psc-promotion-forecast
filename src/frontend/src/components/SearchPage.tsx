@@ -3,6 +3,7 @@ import { ArrowRight, ChevronDown, Eye, Search } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { type Employee, employees } from "../data/employees";
+import { useActor } from "../hooks/useActor";
 
 interface SearchPageProps {
   onSelect: (employee: Employee) => void;
@@ -17,17 +18,17 @@ export function SearchPage({ onSelect }: SearchPageProps) {
   const [visitCount, setVisitCount] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { actor, isFetching } = useActor();
+  const hasIncrementedRef = useRef(false);
 
-  // Increment visit count on mount
+  // Increment shared visit count on mount (once actor is ready)
   useEffect(() => {
-    const stored = Number.parseInt(
-      localStorage.getItem("psc_visit_count") ?? "0",
-      10,
-    );
-    const updated = stored + 1;
-    localStorage.setItem("psc_visit_count", String(updated));
-    setVisitCount(updated);
-  }, []);
+    if (!actor || isFetching || hasIncrementedRef.current) return;
+    hasIncrementedRef.current = true;
+    actor.incrementVisits().then((count) => {
+      setVisitCount(Number(count));
+    });
+  }, [actor, isFetching]);
 
   const search = useCallback((q: string) => {
     if (q.trim().length < 2) {

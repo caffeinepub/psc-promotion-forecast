@@ -8,5 +8,7 @@ export interface None {
 }
 export type Option<T> = Some<T> | None;
 export interface backendInterface {
+    getVisits(): Promise<bigint>;
+    incrementVisits(): Promise<bigint>;
     ping(): Promise<string>;
 }

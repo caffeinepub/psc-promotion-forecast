@@ -9,13 +9,19 @@
 import { IDL } from '@icp-sdk/core/candid';
 
 export const idlService = IDL.Service({
+  'getVisits' : IDL.Func([], [IDL.Nat], ['query']),
+  'incrementVisits' : IDL.Func([], [IDL.Nat], []),
   'ping' : IDL.Func([], [IDL.Text], ['query']),
 });
 
 export const idlInitArgs = [];
 
 export const idlFactory = ({ IDL }) => {
-  return IDL.Service({ 'ping' : IDL.Func([], [IDL.Text], ['query']) });
+  return IDL.Service({
+    'getVisits' : IDL.Func([], [IDL.Nat], ['query']),
+    'incrementVisits' : IDL.Func([], [IDL.Nat], []),
+    'ping' : IDL.Func([], [IDL.Text], ['query']),
+  });
 };
 
 export const init = ({ IDL }) => { return []; };
