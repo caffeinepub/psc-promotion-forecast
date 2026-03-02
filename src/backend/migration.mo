@@ -1,25 +1,49 @@
 import Map "mo:core/Map";
-import Text "mo:core/Text";
+import Nat "mo:core/Nat";
+import Array "mo:core/Array";
+import Int "mo:core/Int";
 
 module {
-  type OldActor = {
+  type SearchRecord = {
+    name : Text;
+    timestamp : Int;
+  };
+
+  type OldActorState = {
     visits : Nat;
-    searches : [{ name : Text; timestamp : Int }];
+    searches : [SearchRecord];
     totalSearches : Nat;
     lastVisitTime : Int;
     maxSearches : Nat;
   };
 
-  type NewActor = {
-    visits : Nat;
-    searches : [{ name : Text; timestamp : Int }];
+  type NewActorState = {
+    totalVisits : Nat;
     totalSearches : Nat;
     lastVisitTime : Int;
+    searchesCount : Nat;
     maxSearches : Nat;
-    employeeCounts : Map.Map<Text, Nat>;
+    recentSearches : Map.Map<Int, SearchRecord>;
   };
 
-  public func run(old : OldActor) : NewActor {
-    { old with employeeCounts = Map.empty<Text, Nat>() };
+  public func run(old : OldActorState) : NewActorState {
+    let recentSearches = Map.empty<Int, SearchRecord>();
+
+    var count = 0;
+    for (search in old.searches.values()) {
+      if (count < old.maxSearches) {
+        recentSearches.add(count, search);
+        count += 1;
+      };
+    };
+
+    {
+      totalVisits = old.visits;
+      totalSearches = old.totalSearches;
+      lastVisitTime = old.lastVisitTime;
+      searchesCount = count;
+      maxSearches = 50;
+      recentSearches;
+    };
   };
 };

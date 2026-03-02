@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronDown, Eye, Search } from "lucide-react";
+import { ArrowRight, ChevronDown, Eye, Loader2, Search } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { type Employee, employees } from "../data/employees";
@@ -17,6 +17,7 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [visitCount, setVisitCount] = useState<number | null>(null);
+  const [visitLoading, setVisitLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { actor, isFetching } = useActor();
@@ -26,17 +27,24 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
   useEffect(() => {
     if (!actor || isFetching || hasIncrementedRef.current) return;
     hasIncrementedRef.current = true;
+    setVisitLoading(true);
     actor
       .incrementVisits()
       .then((count) => {
         setVisitCount(Number(count));
+        setVisitLoading(false);
       })
       .catch(() => {
         // On failure, try to at least fetch the read-only count
         actor
           .getVisits()
-          .then((count) => setVisitCount(Number(count)))
-          .catch(() => setVisitCount(0));
+          .then((count) => {
+            setVisitCount(Number(count));
+            setVisitLoading(false);
+          })
+          .catch(() => {
+            setVisitLoading(false);
+          });
       });
   }, [actor, isFetching]);
 
@@ -295,7 +303,13 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
               Search from {employees.length.toLocaleString()} registered
               employees
             </p>
-            {visitCount !== null && (
+            {visitLoading && (
+              <span className="flex items-center gap-1 text-xs text-muted-foreground/50">
+                <Loader2 className="h-3 w-3 animate-spin" />
+                <span>visits</span>
+              </span>
+            )}
+            {!visitLoading && visitCount !== null && visitCount > 0 && (
               <span className="flex items-center gap-1 text-xs text-muted-foreground/70">
                 <Eye className="h-3 w-3" />
                 {visitCount.toLocaleString()} visits
