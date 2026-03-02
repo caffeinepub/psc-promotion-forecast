@@ -3,10 +3,10 @@ import Array "mo:core/Array";
 import Nat "mo:core/Nat";
 import Map "mo:core/Map";
 import Iter "mo:core/Iter";
-import Migration "migration";
+
 
 // Use `with` clause to run migration on upgrade
-(with migration = Migration.run)
+
 actor {
   public type SearchRecord = {
     name : Text;

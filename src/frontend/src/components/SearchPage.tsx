@@ -140,8 +140,7 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
           <img
             src="/assets/generated/banner.dim_1400x400.jpg"
             alt="Know Your Future in PSC - Your Promotion Forecasting Assistant"
-            className="w-full rounded-2xl object-cover shadow-glow"
-            style={{ maxHeight: "220px" }}
+            className="w-full rounded-2xl object-contain shadow-glow"
           />
         </motion.div>
 
