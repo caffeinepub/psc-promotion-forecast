@@ -89,7 +89,7 @@ export function ResultPage({ employee, onBack }: ResultPageProps) {
   };
 
   return (
-    <div className="min-h-screen px-4 py-8 relative">
+    <div className="min-h-screen px-4 sm:px-8 lg:px-16 py-8 relative">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
@@ -102,7 +102,7 @@ export function ResultPage({ employee, onBack }: ResultPageProps) {
       </div>
 
       <motion.div
-        className="max-w-2xl mx-auto relative z-10"
+        className="max-w-3xl mx-auto relative z-10"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -149,7 +149,7 @@ export function ResultPage({ employee, onBack }: ResultPageProps) {
           </div>
 
           {/* Info grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <InfoItem
               icon={<Hash className="h-3.5 w-3.5" />}
               label="PEN"
@@ -236,7 +236,7 @@ export function ResultPage({ employee, onBack }: ResultPageProps) {
                             {milestone.cadre}
                           </span>
                         </td>
-                        <td className="px-4 sm:px-6 py-3.5 text-muted-foreground font-mono text-xs">
+                        <td className="px-4 sm:px-6 py-3.5 font-mono text-xs text-foreground font-medium">
                           {formatDate(milestone.date)}
                         </td>
                         <td className="px-4 sm:px-6 py-3.5">
@@ -263,7 +263,7 @@ export function ResultPage({ employee, onBack }: ResultPageProps) {
                     </td>
                     <td className="px-4 sm:px-6 py-4">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-mono text-xs text-muted-foreground">
+                        <span className="font-mono text-xs text-foreground font-medium">
                           {formatDate(employee.dor)}
                         </span>
                         <span

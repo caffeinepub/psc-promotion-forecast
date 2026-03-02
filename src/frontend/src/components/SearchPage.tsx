@@ -16,7 +16,7 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
   const [selected, setSelected] = useState<Employee | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [visitCount, setVisitCount] = useState(0);
+  const [visitCount, setVisitCount] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { actor, isFetching } = useActor();
@@ -26,9 +26,18 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
   useEffect(() => {
     if (!actor || isFetching || hasIncrementedRef.current) return;
     hasIncrementedRef.current = true;
-    actor.incrementVisits().then((count) => {
-      setVisitCount(Number(count));
-    });
+    actor
+      .incrementVisits()
+      .then((count) => {
+        setVisitCount(Number(count));
+      })
+      .catch(() => {
+        // On failure, try to at least fetch the read-only count
+        actor
+          .getVisits()
+          .then((count) => setVisitCount(Number(count)))
+          .catch(() => setVisitCount(0));
+      });
   }, [actor, isFetching]);
 
   const search = useCallback((q: string) => {
@@ -47,8 +56,10 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
   }, []);
 
   useEffect(() => {
+    // When a name is selected, don't trigger search (avoids re-showing dropdown)
+    if (selected) return;
     search(query);
-  }, [query, search]);
+  }, [query, search, selected]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -84,10 +95,16 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
   }
 
   function pickEmployee(emp: Employee) {
+    // If this employee is already selected, go straight to details
+    if (selected && selected.pen === emp.pen) {
+      setIsOpen(false);
+      onSelect(emp);
+      return;
+    }
     setSelected(emp);
     setQuery(emp.name);
     setIsOpen(false);
-    setResults([]);
+    setResults([emp]); // keep the result so re-focus can re-open with it
     // Fire-and-forget: record the search in backend
     if (actor && !isFetching) {
       actor.recordSearch(emp.name).catch(() => {});
@@ -105,7 +122,7 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 relative">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 lg:px-16 py-12 relative">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
@@ -125,7 +142,7 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
       </div>
 
       <motion.div
-        className="w-full max-w-lg flex flex-col items-center gap-8 relative z-10"
+        className="w-full max-w-2xl flex flex-col items-center gap-8 relative z-10"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
@@ -165,7 +182,16 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
                 value={query}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                onFocus={() => results.length > 0 && setIsOpen(true)}
+                onFocus={() => {
+                  if (selected) {
+                    // Re-open dropdown showing the selected name (so user can click it to view details)
+                    setIsOpen(true);
+                  } else if (results.length > 0) {
+                    setIsOpen(true);
+                  } else if (query.trim().length >= 2) {
+                    search(query);
+                  }
+                }}
                 placeholder="Type name here..."
                 className="w-full pl-11 pr-10 py-3.5 rounded-pill bg-input border border-border text-foreground placeholder:text-muted-foreground text-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                 autoComplete="off"
@@ -196,9 +222,11 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
                         key={emp.pen}
                         data-selected={i === activeIndex}
                         className={`flex items-center justify-between px-4 py-3 cursor-pointer transition-colors border-b border-border last:border-b-0 ${
-                          i === activeIndex
-                            ? "bg-primary/10 text-primary"
-                            : "hover:bg-accent/30 text-foreground"
+                          selected && selected.pen === emp.pen
+                            ? "bg-primary/20 text-primary"
+                            : i === activeIndex
+                              ? "bg-primary/10 text-primary"
+                              : "hover:bg-accent/30 text-foreground"
                         }`}
                         onMouseEnter={() => setActiveIndex(i)}
                         onMouseDown={(e) => {
@@ -212,7 +240,13 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
                             {emp.designation} &middot; PEN: {emp.pen}
                           </div>
                         </div>
-                        <ArrowRight className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                        {selected && selected.pen === emp.pen ? (
+                          <span className="text-[10px] font-semibold tracking-wide text-primary border border-primary/40 rounded px-1.5 py-0.5 flex-shrink-0">
+                            View Details
+                          </span>
+                        ) : (
+                          <ArrowRight className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                        )}
                       </div>
                     ))}
                   </div>
@@ -261,7 +295,7 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
               Search from {employees.length.toLocaleString()} registered
               employees
             </p>
-            {visitCount > 0 && (
+            {visitCount !== null && (
               <span className="flex items-center gap-1 text-xs text-muted-foreground/70">
                 <Eye className="h-3 w-3" />
                 {visitCount.toLocaleString()} visits
