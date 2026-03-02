@@ -89,13 +89,71 @@ export class ExternalBlob {
         return this;
     }
 }
+export interface Stats {
+    lastVisitTime: bigint;
+    totalVisits: bigint;
+    totalSearches: bigint;
+}
+export interface EmployeeCount {
+    name: string;
+    count: bigint;
+}
+export interface SearchRecord {
+    name: string;
+    timestamp: bigint;
+}
 export interface backendInterface {
+    getMostSearched(limit: bigint): Promise<Array<EmployeeCount>>;
+    getRecentSearches(limit: bigint): Promise<Array<SearchRecord>>;
+    getStats(): Promise<Stats>;
     getVisits(): Promise<bigint>;
     incrementVisits(): Promise<bigint>;
-    ping(): Promise<string>;
+    recordSearch(name: string): Promise<bigint>;
 }
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
+    async getMostSearched(arg0: bigint): Promise<Array<EmployeeCount>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getMostSearched(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getMostSearched(arg0);
+            return result;
+        }
+    }
+    async getRecentSearches(arg0: bigint): Promise<Array<SearchRecord>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getRecentSearches(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getRecentSearches(arg0);
+            return result;
+        }
+    }
+    async getStats(): Promise<Stats> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getStats();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getStats();
+            return result;
+        }
+    }
     async getVisits(): Promise<bigint> {
         if (this.processError) {
             try {
@@ -124,17 +182,17 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async ping(): Promise<string> {
+    async recordSearch(arg0: string): Promise<bigint> {
         if (this.processError) {
             try {
-                const result = await this.actor.ping();
+                const result = await this.actor.recordSearch(arg0);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.ping();
+            const result = await this.actor.recordSearch(arg0);
             return result;
         }
     }

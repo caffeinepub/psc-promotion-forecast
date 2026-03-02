@@ -7,9 +7,10 @@ import { useActor } from "../hooks/useActor";
 
 interface SearchPageProps {
   onSelect: (employee: Employee) => void;
+  onAdminClick: () => void;
 }
 
-export function SearchPage({ onSelect }: SearchPageProps) {
+export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Employee[]>([]);
   const [selected, setSelected] = useState<Employee | null>(null);
@@ -87,6 +88,10 @@ export function SearchPage({ onSelect }: SearchPageProps) {
     setQuery(emp.name);
     setIsOpen(false);
     setResults([]);
+    // Fire-and-forget: record the search in backend
+    if (actor && !isFetching) {
+      actor.recordSearch(emp.name).catch(() => {});
+    }
   }
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -281,20 +286,29 @@ export function SearchPage({ onSelect }: SearchPageProps) {
 
       {/* Footer */}
       <motion.footer
-        className="absolute bottom-4 left-0 right-0 text-center text-xs text-muted-foreground/50"
+        className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-4 text-xs text-muted-foreground/50"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7 }}
       >
-        © {new Date().getFullYear()}.{" "}
-        <a
-          href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(window.location.hostname)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-primary transition-colors"
+        <span>
+          © {new Date().getFullYear()}.{" "}
+          <a
+            href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(window.location.hostname)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary transition-colors"
+          >
+            Built with ♥ using caffeine.ai
+          </a>
+        </span>
+        <button
+          type="button"
+          onClick={onAdminClick}
+          className="text-muted-foreground/30 hover:text-muted-foreground/60 transition-colors text-[10px] tracking-wider"
         >
-          Built with ♥ using caffeine.ai
-        </a>
+          admin
+        </button>
       </motion.footer>
     </div>
   );

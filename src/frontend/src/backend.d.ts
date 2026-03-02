@@ -7,8 +7,24 @@ export interface None {
     __kind__: "None";
 }
 export type Option<T> = Some<T> | None;
+export interface Stats {
+    lastVisitTime: bigint;
+    totalVisits: bigint;
+    totalSearches: bigint;
+}
+export interface EmployeeCount {
+    name: string;
+    count: bigint;
+}
+export interface SearchRecord {
+    name: string;
+    timestamp: bigint;
+}
 export interface backendInterface {
+    getMostSearched(limit: bigint): Promise<Array<EmployeeCount>>;
+    getRecentSearches(limit: bigint): Promise<Array<SearchRecord>>;
+    getStats(): Promise<Stats>;
     getVisits(): Promise<bigint>;
     incrementVisits(): Promise<bigint>;
-    ping(): Promise<string>;
+    recordSearch(name: string): Promise<bigint>;
 }

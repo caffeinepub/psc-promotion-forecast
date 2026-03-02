@@ -10,10 +10,20 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
+export interface EmployeeCount { 'name' : string, 'count' : bigint }
+export interface SearchRecord { 'name' : string, 'timestamp' : bigint }
+export interface Stats {
+  'lastVisitTime' : bigint,
+  'totalVisits' : bigint,
+  'totalSearches' : bigint,
+}
 export interface _SERVICE {
+  'getMostSearched' : ActorMethod<[bigint], Array<EmployeeCount>>,
+  'getRecentSearches' : ActorMethod<[bigint], Array<SearchRecord>>,
+  'getStats' : ActorMethod<[], Stats>,
   'getVisits' : ActorMethod<[], bigint>,
   'incrementVisits' : ActorMethod<[], bigint>,
-  'ping' : ActorMethod<[], string>,
+  'recordSearch' : ActorMethod<[string], bigint>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

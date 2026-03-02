@@ -8,19 +8,55 @@
 
 import { IDL } from '@icp-sdk/core/candid';
 
+export const EmployeeCount = IDL.Record({
+  'name' : IDL.Text,
+  'count' : IDL.Nat,
+});
+export const SearchRecord = IDL.Record({
+  'name' : IDL.Text,
+  'timestamp' : IDL.Int,
+});
+export const Stats = IDL.Record({
+  'lastVisitTime' : IDL.Int,
+  'totalVisits' : IDL.Nat,
+  'totalSearches' : IDL.Nat,
+});
+
 export const idlService = IDL.Service({
+  'getMostSearched' : IDL.Func([IDL.Nat], [IDL.Vec(EmployeeCount)], ['query']),
+  'getRecentSearches' : IDL.Func([IDL.Nat], [IDL.Vec(SearchRecord)], ['query']),
+  'getStats' : IDL.Func([], [Stats], ['query']),
   'getVisits' : IDL.Func([], [IDL.Nat], ['query']),
   'incrementVisits' : IDL.Func([], [IDL.Nat], []),
-  'ping' : IDL.Func([], [IDL.Text], ['query']),
+  'recordSearch' : IDL.Func([IDL.Text], [IDL.Nat], []),
 });
 
 export const idlInitArgs = [];
 
 export const idlFactory = ({ IDL }) => {
+  const EmployeeCount = IDL.Record({ 'name' : IDL.Text, 'count' : IDL.Nat });
+  const SearchRecord = IDL.Record({ 'name' : IDL.Text, 'timestamp' : IDL.Int });
+  const Stats = IDL.Record({
+    'lastVisitTime' : IDL.Int,
+    'totalVisits' : IDL.Nat,
+    'totalSearches' : IDL.Nat,
+  });
+  
   return IDL.Service({
+    'getMostSearched' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Vec(EmployeeCount)],
+        ['query'],
+      ),
+    'getRecentSearches' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Vec(SearchRecord)],
+        ['query'],
+      ),
+    'getStats' : IDL.Func([], [Stats], ['query']),
     'getVisits' : IDL.Func([], [IDL.Nat], ['query']),
     'incrementVisits' : IDL.Func([], [IDL.Nat], []),
-    'ping' : IDL.Func([], [IDL.Text], ['query']),
+    'recordSearch' : IDL.Func([IDL.Text], [IDL.Nat], []),
   });
 };
 
