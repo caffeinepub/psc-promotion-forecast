@@ -5693,7 +5693,7 @@ export const employees: Employee[] = [
   },
   {
     name: "DIVYA P D",
-    pen: "645386",
+    pen: "995932",
     designation: "Assistant",
     dob: "24/11/1992",
     doj: "04/01/2013",
@@ -8759,7 +8759,7 @@ export const employees: Employee[] = [
   },
   {
     name: "LEKSHMI S R",
-    pen: "9999999",
+    pen: "1026364",
     designation: "Assistant",
     dob: "25/08/1997",
     doj: "16/02/2026",
