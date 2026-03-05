@@ -4,15 +4,6 @@ import App from "./App";
 import { InternetIdentityProvider } from "./hooks/useInternetIdentity";
 import "../index.css";
 
-// Register service worker for offline support and faster repeat loads
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/sw.js", { scope: "/" })
-      .catch((err) => console.warn("Service worker registration failed:", err));
-  });
-}
-
 BigInt.prototype.toJSON = function () {
   return this.toString();
 };
