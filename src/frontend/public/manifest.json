@@ -36,7 +36,22 @@
       "purpose": "maskable"
     }
   ],
-  "screenshots": [],
+  "screenshots": [
+    {
+      "src": "/assets/generated/screenshot-home.dim_390x844.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home screen – search for any PSC employee by name or PEN"
+    },
+    {
+      "src": "/assets/generated/screenshot-result.dim_390x844.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Employee details – promotion timeline, retirement date, and service badges"
+    }
+  ],
   "categories": ["productivity", "utilities"],
   "prefer_related_applications": false
 }
