@@ -783,7 +783,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "26/05/1997",
     doj: "31/07/2025",
-    dor: "31/03/2056",
+    dor: "31/05/2057",
     promotions: {
       "Sr. Grd. Asst": "01/05/2030",
       ASO: "01/04/2035",
@@ -867,7 +867,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "01/05/1995",
     doj: "18/07/2025",
-    dor: "31/05/2055",
+    dor: "30/04/2055",
     promotions: {
       "Sr. Grd. Asst": "01/06/2030",
       ASO: "01/06/2035",
@@ -909,7 +909,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "30/05/1994",
     doj: "02/12/2025",
-    dor: "30/06/2050",
+    dor: "31/05/2054",
     promotions: {
       "Sr. Grd. Asst": "01/07/2030",
       ASO: "01/06/2035",
@@ -2337,7 +2337,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "15/05/1990",
     doj: "17/06/2025",
-    dor: "31/05/2045",
+    dor: "31/05/2050",
     promotions: {
       "Sr. Grd. Asst": "01/04/2030",
       ASO: "01/12/2034",
@@ -2715,7 +2715,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "24/03/1998",
     doj: "22/10/2024",
-    dor: "31/10/2058",
+    dor: "31/03/2058",
     promotions: {
       "Sr. Grd. Asst": "01/06/2029",
       ASO: "01/02/2034",
@@ -3324,7 +3324,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "29/05/1997",
     doj: "31/10/2025",
-    dor: "30/11/2053",
+    dor: "31/05/2057",
     promotions: {
       "Sr. Grd. Asst": "01/06/2030",
       ASO: "01/06/2035",
@@ -3639,7 +3639,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "01/05/1996",
     doj: "08/07/2025",
-    dor: "31/05/2055",
+    dor: "30/04/2056",
     promotions: {
       "Sr. Grd. Asst": "01/05/2030",
       ASO: "01/05/2035",
@@ -5802,7 +5802,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "16/11/1993",
     doj: "16/04/2025",
-    dor: "31/05/2050",
+    dor: "30/11/2053",
     promotions: {
       "Sr. Grd. Asst": "01/08/2029",
       ASO: "01/06/2034",
@@ -8868,7 +8868,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "01/01/1980",
     doj: "14/05/2025",
-    dor: "31/01/2040",
+    dor: "31/12/2035",
     promotions: {
       "Sr. Grd. Asst": "01/01/2030",
       ASO: "01/06/2034",
@@ -10233,7 +10233,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "15/03/1984",
     doj: "14/03/2025",
-    dor: "31/08/2045",
+    dor: "31/03/2044",
     promotions: {
       "Sr. Grd. Asst": "01/06/2029",
       ASO: "01/06/2034",
@@ -11304,7 +11304,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "12/10/1993",
     doj: "17/05/2025",
-    dor: "31/08/2049",
+    dor: "31/10/2053",
     promotions: {
       "Sr. Grd. Asst": "01/04/2030",
       ASO: "01/06/2034",
@@ -14538,7 +14538,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "10/04/1990",
     doj: "21/04/2025",
-    dor: "31/05/2050",
+    dor: "30/04/2050",
     promotions: {
       "Sr. Grd. Asst": "01/06/2029",
       ASO: "01/06/2034",
@@ -15273,7 +15273,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "26/11/1996",
     doj: "19/11/2025",
-    dor: "31/03/2052",
+    dor: "30/11/2056",
     promotions: {
       "Sr. Grd. Asst": "01/08/2030",
       ASO: "01/08/2035",
@@ -16239,7 +16239,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "14/10/1987",
     doj: "14/05/2025",
-    dor: "31/05/2048",
+    dor: "31/10/2047",
     promotions: {
       "Sr. Grd. Asst": "01/03/2030",
       ASO: "01/06/2034",
@@ -16911,7 +16911,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "15/03/1987",
     doj: "05/01/2024",
-    dor: "31/03/2047",
+    dor: "31/05/2051",
     promotions: {
       "Sr. Grd. Asst": "01/02/2029",
       ASO: "01/05/2033",
@@ -18192,7 +18192,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "28/05/1980",
     doj: "14/05/2025",
-    dor: "31/05/2040",
+    dor: "31/05/2036",
     promotions: {
       "Sr. Grd. Asst": "01/12/2029",
       ASO: "01/06/2034",
@@ -19851,7 +19851,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "09/07/1994",
     doj: "20/03/2025",
-    dor: "30/04/2054",
+    dor: "31/07/2054",
     promotions: {
       "Sr. Grd. Asst": "01/06/2029",
       ASO: "01/06/2034",
@@ -22497,7 +22497,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "10/01/1995",
     doj: "06/11/2025",
-    dor: "31/08/2054",
+    dor: "31/01/2055",
     promotions: {
       "Sr. Grd. Asst": "01/06/2030",
       ASO: "01/06/2035",
