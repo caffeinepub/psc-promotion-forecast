@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown, Eye, Loader2, Search } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import bannerImg from "/assets/uploads/banner-2-1-1.jpg";
 import { type Employee, employees } from "../data/employees";
 import { useActor } from "../hooks/useActor";
 
@@ -163,7 +164,7 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
           transition={{ delay: 0.1, duration: 0.4 }}
         >
           <img
-            src="/assets/generated/banner.dim_1400x400.jpg"
+            src={bannerImg}
             alt="Know Your Future in PSC - Your Promotion Forecasting Assistant"
             className="w-full rounded-2xl object-contain shadow-glow"
           />

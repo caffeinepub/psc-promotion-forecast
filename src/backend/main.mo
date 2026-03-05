@@ -4,9 +4,9 @@ import Map "mo:core/Map";
 import Array "mo:core/Array";
 import Iter "mo:core/Iter";
 import Int "mo:core/Int";
-import Migration "migration";
 
-(with migration = Migration.run)
+
+
 actor {
   public type SearchRecord = {
     name : Text;

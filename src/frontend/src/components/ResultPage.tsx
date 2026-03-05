@@ -193,30 +193,33 @@ export function ResultPage({ employee, onBack }: ResultPageProps) {
             </div>
           </div>
 
-          {milestones.length === 0 ? (
-            <div className="px-6 py-12 text-center">
-              <p className="text-muted-foreground text-sm">
-                No promotion data available for this employee.
-              </p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left px-4 sm:px-6 py-3.5 text-xs font-semibold tracking-widest uppercase text-primary whitespace-nowrap">
-                      Promotion Cadre
-                    </th>
-                    <th className="text-left px-4 sm:px-6 py-3.5 text-xs font-semibold tracking-widest uppercase text-primary whitespace-nowrap">
-                      Effective Date
-                    </th>
-                    <th className="text-left px-4 sm:px-6 py-3.5 text-xs font-semibold tracking-widest uppercase text-primary whitespace-nowrap">
-                      Duration in Cadre
-                    </th>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left px-4 sm:px-6 py-3.5 text-xs font-semibold tracking-widest uppercase text-primary whitespace-nowrap">
+                    Promotion Cadre
+                  </th>
+                  <th className="text-left px-4 sm:px-6 py-3.5 text-xs font-semibold tracking-widest uppercase text-primary whitespace-nowrap">
+                    Effective Date
+                  </th>
+                  <th className="text-left px-4 sm:px-6 py-3.5 text-xs font-semibold tracking-widest uppercase text-primary whitespace-nowrap">
+                    Duration in Cadre
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {milestones.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={3}
+                      className="px-6 py-8 text-center text-muted-foreground text-sm"
+                    >
+                      No promotion data available for this employee.
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {milestones.map((milestone, index) => {
+                ) : (
+                  milestones.map((milestone, index) => {
                     const nextDate =
                       index < milestones.length - 1
                         ? milestones[index + 1].date
@@ -246,42 +249,42 @@ export function ResultPage({ employee, onBack }: ResultPageProps) {
                         </td>
                       </motion.tr>
                     );
-                  })}
+                  })
+                )}
 
-                  {/* Date of Superannuation row */}
-                  <motion.tr
-                    className="bg-primary/5"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 + milestones.length * 0.05 }}
+                {/* Date of Superannuation row — always shown */}
+                <motion.tr
+                  className="bg-primary/5"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + milestones.length * 0.05 }}
+                >
+                  <td
+                    colSpan={2}
+                    className="px-4 sm:px-6 py-4 font-bold text-foreground"
                   >
-                    <td
-                      colSpan={2}
-                      className="px-4 sm:px-6 py-4 font-bold text-foreground"
-                    >
-                      Date of Superannuation
-                    </td>
-                    <td className="px-4 sm:px-6 py-4">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-mono text-xs text-foreground font-medium">
-                          {formatDate(employee.dor)}
-                        </span>
-                        <span
-                          className={`px-2.5 py-1 rounded-full text-xs font-bold tracking-widest uppercase ${
-                            npsOps === "NPS"
-                              ? "bg-nps-bg text-nps border border-nps/30"
-                              : "bg-ops-bg text-ops border border-ops/30"
-                          }`}
-                        >
-                          {npsOps}
-                        </span>
-                      </div>
-                    </td>
-                  </motion.tr>
-                </tbody>
-              </table>
-            </div>
-          )}
+                    Date of Superannuation
+                  </td>
+                  <td className="px-4 sm:px-6 py-4">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-mono text-xs text-foreground font-medium">
+                        {formatDate(employee.dor)}
+                      </span>
+                      <span
+                        className={`px-2.5 py-1 rounded-full text-xs font-bold tracking-widest uppercase ${
+                          npsOps === "NPS"
+                            ? "bg-nps-bg text-nps border border-nps/30"
+                            : "bg-ops-bg text-ops border border-ops/30"
+                        }`}
+                      >
+                        {npsOps}
+                      </span>
+                    </div>
+                  </td>
+                </motion.tr>
+              </tbody>
+            </table>
+          </div>
         </motion.div>
 
         {/* Legend */}
