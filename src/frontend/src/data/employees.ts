@@ -8322,7 +8322,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "22/04/1995",
     doj: "04/04/2024",
-    dor: "31/05/2051",
+    dor: "30/04/2055",
     promotions: {
       "Sr. Grd. Asst": "01/06/2028",
       ASO: "01/08/2032",
@@ -16911,7 +16911,7 @@ export const employees: Employee[] = [
     designation: "Assistant",
     dob: "15/03/1987",
     doj: "05/01/2024",
-    dor: "31/05/2051",
+    dor: "31/03/2047",
     promotions: {
       "Sr. Grd. Asst": "01/06/2028",
       ASO: "01/08/2032",
