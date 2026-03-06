@@ -1,18 +1,15 @@
 // PSC Promotion Forecast - Service Worker
 // Strategy: Cache-first for static assets, network-first for API/dynamic requests
 
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 const STATIC_CACHE = 'psc-static-' + CACHE_VERSION;
 const DYNAMIC_CACHE = 'psc-dynamic-' + CACHE_VERSION;
 
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
-  '/assets/generated/psc-icon-192.dim_192x192.png',
-  '/assets/generated/psc-icon-384.dim_384x384.png',
-  '/assets/generated/psc-icon-512.dim_512x512.png',
-  '/assets/uploads/banner-2-1-1.jpg',
-  '/assets/uploads/WhatsApp-Image-2026-03-05-at-11.42.52-PM-1.png'
+  '/assets/generated/psc-icon-black-512.dim_512x512.png',
+  '/assets/uploads/banner-2-1-1.jpg'
 ];
 
 // ── Install: pre-cache all static assets ──────────────────────────────────────

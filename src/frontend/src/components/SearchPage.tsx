@@ -3,6 +3,8 @@ import { ArrowRight, ChevronDown, Eye, Loader2, Search } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import bannerImg from "/assets/uploads/banner-2-1-1.jpg";
+// Explicit import to prevent build pruning of PWA icon
+import "/assets/uploads/WhatsApp-Image-2026-03-05-at-11.42.52-PM-2-1.png";
 import { type Employee, employees } from "../data/employees";
 import { useActor } from "../hooks/useActor";
 
