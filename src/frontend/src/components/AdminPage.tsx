@@ -305,7 +305,7 @@ export function AdminPage({ onBack }: AdminPageProps) {
                   {stats ? Number(stats.totalVisits).toLocaleString() : "—"}
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  App page loads
+                  Unique device sessions
                 </p>
               </div>
 

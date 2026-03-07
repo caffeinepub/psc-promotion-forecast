@@ -26,17 +26,20 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
   const { actor, isFetching } = useActor();
   const hasIncrementedRef = useRef(false);
 
-  // Increment shared visit count once per device (using localStorage)
+  // Increment shared visit count once per session (using sessionStorage).
+  // sessionStorage is cleared when the tab/browser is closed, so each new
+  // session (user leaves and comes back) counts as a new visit, but
+  // refreshing within the same session does NOT increment.
   useEffect(() => {
     if (!actor || isFetching || hasIncrementedRef.current) return;
     hasIncrementedRef.current = true;
     setVisitLoading(true);
 
-    const VISIT_KEY = "psc_device_visited";
-    const alreadyVisited = localStorage.getItem(VISIT_KEY);
+    const SESSION_KEY = "psc_session_visited";
+    const alreadyVisitedThisSession = sessionStorage.getItem(SESSION_KEY);
 
-    if (alreadyVisited) {
-      // Device already counted — just fetch the current count
+    if (alreadyVisitedThisSession) {
+      // Same session (page refresh) — just fetch the current count, don't increment
       actor
         .getVisits()
         .then((count) => {
@@ -45,11 +48,11 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
         })
         .catch(() => setVisitLoading(false));
     } else {
-      // First visit from this device — increment and mark
+      // New session (user opened or reopened the app) — increment and mark
       actor
         .incrementVisits()
         .then((count) => {
-          localStorage.setItem(VISIT_KEY, "1");
+          sessionStorage.setItem(SESSION_KEY, "1");
           setVisitCount(Number(count));
           setVisitLoading(false);
         })
