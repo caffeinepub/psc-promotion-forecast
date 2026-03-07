@@ -26,29 +26,43 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
   const { actor, isFetching } = useActor();
   const hasIncrementedRef = useRef(false);
 
-  // Increment shared visit count on mount (once actor is ready)
+  // Increment shared visit count once per device (using localStorage)
   useEffect(() => {
     if (!actor || isFetching || hasIncrementedRef.current) return;
     hasIncrementedRef.current = true;
     setVisitLoading(true);
-    actor
-      .incrementVisits()
-      .then((count) => {
-        setVisitCount(Number(count));
-        setVisitLoading(false);
-      })
-      .catch(() => {
-        // On failure, try to at least fetch the read-only count
-        actor
-          .getVisits()
-          .then((count) => {
-            setVisitCount(Number(count));
-            setVisitLoading(false);
-          })
-          .catch(() => {
-            setVisitLoading(false);
-          });
-      });
+
+    const VISIT_KEY = "psc_device_visited";
+    const alreadyVisited = localStorage.getItem(VISIT_KEY);
+
+    if (alreadyVisited) {
+      // Device already counted — just fetch the current count
+      actor
+        .getVisits()
+        .then((count) => {
+          setVisitCount(Number(count));
+          setVisitLoading(false);
+        })
+        .catch(() => setVisitLoading(false));
+    } else {
+      // First visit from this device — increment and mark
+      actor
+        .incrementVisits()
+        .then((count) => {
+          localStorage.setItem(VISIT_KEY, "1");
+          setVisitCount(Number(count));
+          setVisitLoading(false);
+        })
+        .catch(() => {
+          actor
+            .getVisits()
+            .then((count) => {
+              setVisitCount(Number(count));
+              setVisitLoading(false);
+            })
+            .catch(() => setVisitLoading(false));
+        });
+    }
   }, [actor, isFetching]);
 
   const search = useCallback((q: string) => {
@@ -116,9 +130,17 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
     setQuery(emp.name);
     setIsOpen(false);
     setResults([emp]); // keep the result so re-focus can re-open with it
-    // Fire-and-forget: record the search in backend
+    // Fire-and-forget: record the search in backend only once per device per employee
     if (actor && !isFetching) {
-      actor.recordSearch(emp.name).catch(() => {});
+      const SEARCH_KEY = `psc_searched_${emp.pen}`;
+      if (!localStorage.getItem(SEARCH_KEY)) {
+        actor
+          .recordSearch(emp.name)
+          .then(() => {
+            localStorage.setItem(SEARCH_KEY, "1");
+          })
+          .catch(() => {});
+      }
     }
   }
 
