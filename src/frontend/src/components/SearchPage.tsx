@@ -31,7 +31,13 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
   // session (user leaves and comes back) counts as a new visit, but
   // refreshing within the same session does NOT increment.
   useEffect(() => {
-    if (!actor || isFetching || hasIncrementedRef.current) return;
+    if (isFetching) return; // still loading actor, wait
+    if (!actor) {
+      // Actor failed to load — stop spinner so UI doesn't stay stuck
+      setVisitLoading(false);
+      return;
+    }
+    if (hasIncrementedRef.current) return;
     hasIncrementedRef.current = true;
     setVisitLoading(true);
 
@@ -339,7 +345,10 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
             ) : (
               <span className="flex items-center gap-1 text-xs text-muted-foreground/70">
                 <Eye className="h-3 w-3" />
-                {visitCount !== null ? visitCount.toLocaleString() : "—"} visits
+                {visitCount !== null && visitCount !== undefined
+                  ? visitCount.toLocaleString()
+                  : "—"}{" "}
+                visits
               </span>
             )}
           </div>
