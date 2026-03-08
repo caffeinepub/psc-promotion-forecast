@@ -20,7 +20,7 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [visitCount, setVisitCount] = useState<number | null>(null);
-  const [visitLoading, setVisitLoading] = useState(false);
+  const [visitLoading, setVisitLoading] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { actor, isFetching } = useActor();
@@ -331,16 +331,15 @@ export function SearchPage({ onSelect, onAdminClick }: SearchPageProps) {
               Search from {employees.length.toLocaleString()} registered
               employees
             </p>
-            {visitLoading && (
+            {visitLoading ? (
               <span className="flex items-center gap-1 text-xs text-muted-foreground/50">
                 <Loader2 className="h-3 w-3 animate-spin" />
                 <span>visits</span>
               </span>
-            )}
-            {!visitLoading && visitCount !== null && visitCount > 0 && (
+            ) : (
               <span className="flex items-center gap-1 text-xs text-muted-foreground/70">
                 <Eye className="h-3 w-3" />
-                {visitCount.toLocaleString()} visits
+                {visitCount !== null ? visitCount.toLocaleString() : "—"} visits
               </span>
             )}
           </div>
