@@ -91,8 +91,8 @@ function InfoItem({
 
 export function ResultPage({ employee, onBack }: ResultPageProps) {
   const milestones = getMilestones(employee);
-  const npsOps = getNPSOPS(employee.dob, employee.dor);
-  const totalService = getDateDiff(employee.doj, employee.dor);
+  const npsOps = getNPSOPS(employee.dob ?? "", employee.dor ?? "");
+  const totalService = getDateDiff(employee.doj ?? "", employee.dor ?? "");
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -182,12 +182,12 @@ export function ResultPage({ employee, onBack }: ResultPageProps) {
             <InfoItem
               icon={<Calendar className="h-3.5 w-3.5" />}
               label="Date of Birth"
-              value={formatDate(employee.dob)}
+              value={formatDate(employee.dob ?? "")}
             />
             <InfoItem
               icon={<User className="h-3.5 w-3.5" />}
               label="Date of Joining"
-              value={formatDate(employee.doj)}
+              value={formatDate(employee.doj ?? "")}
             />
             <InfoItem
               icon={<Clock className="h-3.5 w-3.5" />}
@@ -243,7 +243,10 @@ export function ResultPage({ employee, onBack }: ResultPageProps) {
                       index < milestones.length - 1
                         ? milestones[index + 1].date
                         : employee.dor;
-                    const duration = getDateDiff(milestone.date, nextDate);
+                    const duration = getDateDiff(
+                      milestone.date,
+                      nextDate ?? "",
+                    );
 
                     return (
                       <motion.tr
@@ -287,7 +290,7 @@ export function ResultPage({ employee, onBack }: ResultPageProps) {
                   <td className="px-4 sm:px-6 py-4">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-mono text-xs text-foreground font-medium">
-                        {formatDate(employee.dor)}
+                        {formatDate(employee.dor ?? "")}
                       </span>
                       <span
                         className={`px-2.5 py-1 rounded-full text-xs font-bold tracking-widest uppercase ${
