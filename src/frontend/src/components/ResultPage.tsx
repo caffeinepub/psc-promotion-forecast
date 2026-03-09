@@ -40,10 +40,29 @@ function getNPSOPS(dob: string, dor: string): "NPS" | "OPS" {
   return years >= 60 ? "NPS" : "OPS";
 }
 
+const CADRE_FIELD_MAP: Record<string, keyof Employee> = {
+  "Sr. Grd. Asst": "srGrdAsst",
+  ASO: "aso",
+  SO: "so",
+  "SO(HG)": "soHG",
+  US: "us",
+  "US(HG)": "usHG",
+  DS: "ds",
+  JS: "js",
+  AS: "as",
+  CE: "ce",
+  Secretary: "secretary",
+};
+
 function getMilestones(employee: Employee): Milestone[] {
-  return PROMOTION_CADRES.filter(
-    (cadre) => employee.promotions[cadre] && employee.promotions[cadre] !== "",
-  ).map((cadre) => ({ cadre, date: employee.promotions[cadre] }));
+  return PROMOTION_CADRES.filter((cadre) => {
+    const field = CADRE_FIELD_MAP[cadre];
+    const val = field ? employee[field] : "";
+    return val && val !== "";
+  }).map((cadre) => {
+    const field = CADRE_FIELD_MAP[cadre];
+    return { cadre, date: field ? (employee[field] as string) : "" };
+  });
 }
 
 function InfoItem({
